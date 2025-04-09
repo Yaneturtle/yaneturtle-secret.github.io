@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>🌹 Важное сообщение от Вселенной</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ffe0ec, #fff4f8);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+    }
+    h1 {
+      font-size: 2em;
+      color: #d63384;
+    }
+    .button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      margin: 10px;
+    }
+    .button:hover {
+      background-color: #e754a4;
+      transform: scale(1.1);
+    }
+    .hidden-message {
+      display: none;
+      margin-top: 30px;
+      font-size: 1.3em;
+      color: #8b008b;
+      background: #fff0f5;
+      padding: 20px;
+      border-radius: 15px;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    #response {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #006400;
+      font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: float 5s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body onload="playIntro()">
+  <h1>🌌 Привет, Клара!</h1>
+  <p>У Вселенной есть для тебя важное послание...</p>
+  <button class="button" onclick="showMessage()">✨ Узнать тайну ✨</button>
+
+  <div class="hidden-message" id="secret">
+    💌 Учёные выяснили...<br><br>
+    Что <strong>ты</strong> — самая чудесная девушка 🌸 (Блевать тянет от ванильности этой html-ки)<br><br>
+    И один симпатичный парень (возможно, я 👀) (И с этим даже не поспоришь, моя мама не обманывает)<br>
+    очень хочет погулять с тобой ☀️<br><br>
+    <strong>Принимаешь вызов?</strong> 🥰<br><br>
+    <button class="button" onclick="respond('Да! Конечно 😊')">Да 💖</button>
+    <button class="button" onclick="respond('Нет 😢 Но ты все равно пойдешь, у тебя нет выбора :)')">Нет 😢</button>
+    <div id="response"></div>
+    <div id="extra"></div>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <!-- Звуки для нажатия кнопок -->
+  <audio id="ding" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+  <audio id="confirm" src="https://www.soundjay.com/button/beep-06.wav"></audio>
+  <audio id="sad" src="https://www.soundjay.com/button/beep-05.wav"></audio>
+
+  <script>
+    function showMessage() {
+      document.getElementById("secret").style.display = "block";
+      document.getElementById("ding").play();  // Звук при нажатии кнопки
+    }
+
+    function respond(answer) {
+      document.getElementById("response").textContent = answer;
+      if (answer.includes("Да")) {
+        document.getElementById("confirm").play();  // Звук при ответе "Да"
+        document.getElementById("extra").innerHTML = ` 
+          <br><br>
+          <img src="https://sun9-70.userapi.com/impg/JnQY4DJG6Sgr3fWfvcTYW0ljqlstMf0zyPBULA/fiN1ZZvFug8.jpg?size=448x449&quality=96&sign=5cb7f558b2453eab6c4c8147aa85ad3b&type=album" alt="Котик прости" width="300" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        `;
+      } else {
+        document.getElementById("sad").play();  // Звук при ответе "Нет"
+        document.getElementById("extra").innerHTML = ` 
+          <br><br>
+          <!-- Вставляем плеер YouTube только при ответе "Нет" -->
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/DpjwUfwetx8?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        `;
+      }
+    }
+
+    function createHearts() {
+      const container = document.getElementById('hearts');
+      for (let i = 0; i < 50; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 100 + 'vh';
+        heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+        container.appendChild(heart);
+      }
+    }
+
+    function playIntro() {
+      createHearts();
+    }
+  </script>
+</body>
+</html>
